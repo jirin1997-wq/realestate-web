@@ -1,12 +1,11 @@
 services:
   - type: web
-    name: reality-calc-api
+    name: realestate-web
     runtime: node
     plan: free
-    buildCommand: npm install
-    startCommand: node real-estate-scraper/public-server.js
+    buildCommand: npm install --omit=dev
+    startCommand: node public-server.js
+    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3000
