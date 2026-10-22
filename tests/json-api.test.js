@@ -65,6 +65,19 @@ test('/facets reports counts per listing type for the whole city', async () => {
   assert.deepEqual(body.listingTypeCounts, { byt: 3, novostavba: 0 });
 });
 
+test('sreality 100x100 thumbnails are upgraded to 800x600', async () => {
+  const thumb = '//d18-a.sdn.cz/d_18/c_img_qD_F/abc/9308.png?fl=res,100,100,1|jpg,80';
+  const app = createJsonApi({ listings: [l({ url: 's', price: 5_000_000, photos: [thumb] })] });
+  const server = express().use('/api', app).listen(0);
+  try {
+    const res = await fetch(`http://127.0.0.1:${server.address().port}/api/listings?city=praha`);
+    const [listing] = (await res.json()).listings;
+    assert.equal(listing.photos[0], 'https://d18-a.sdn.cz/d_18/c_img_qD_F/abc/9308.png?fl=res,800,600,3|shr,,20|webp,60');
+  } finally {
+    server.close();
+  }
+});
+
 test('/map returns only geolocated listings', async () => {
   const { body } = await call('/map/praha');
   assert.equal(body.length, 1);

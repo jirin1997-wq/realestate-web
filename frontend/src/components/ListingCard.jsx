@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PriceRatingBar from './PriceRatingBar';
 import { formatCzk, formatPerM2 } from '../lib/format';
@@ -11,7 +12,9 @@ const YIELD_COLORS = {
 };
 
 export default function ListingCard({ listing, view = 'grid' }) {
-  const photo = listing.photos?.[0];
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const photo = photoFailed ? null : listing.photos?.[0];
+  const photoCount = listing.photos?.length || 0;
   const isList = view === 'list';
 
   return (
@@ -23,11 +26,24 @@ export default function ListingCard({ listing, view = 'grid' }) {
     >
       <div className={`relative bg-slate-100 ${isList ? 'sm:w-72 shrink-0 h-48' : 'h-56'}`}>
         {photo ? (
-          <img src={photo} alt="" className="w-full h-full object-cover" loading="lazy" />
+          <img
+            src={photo}
+            alt=""
+            className="w-full h-full object-cover"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => setPhotoFailed(true)}
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
             Bez fotografie
           </div>
+        )}
+
+        {photo && photoCount > 1 && (
+          <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-lg bg-slate-900/70 text-white text-xs font-medium">
+            {photoCount} fotek
+          </span>
         )}
 
         {listing.completion_year && (

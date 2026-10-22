@@ -73,7 +73,7 @@ export async function enrichDetails({ batch = BATCH, sources = SOURCES } = {}) {
       continue;
     }
 
-    const detail = parseDetail(html);
+    const detail = parseDetail(html, listing.url);
     if (filledFields(detail) === 0) emptyDetails += 1;
 
     applyDetail(listing.url, detail);

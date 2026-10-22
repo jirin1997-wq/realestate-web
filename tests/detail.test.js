@@ -167,3 +167,32 @@ describe('parseDetail — iDNES', () => {
     assert.equal(detail.latitude, null);
   });
 });
+
+describe('fotky z detailu', () => {
+  const HTML = `<html><head>
+    <meta property="og:image" content="https://img.example/og.jpg">
+    <script type="application/ld+json">{"@type":"Product","image":["https://img.example/ld1.jpg","https://img.example/og.jpg"]}</script>
+    <script type="application/ld+json">{ rozbitý json</script>
+  </head><body><main>
+    <img src="/_next/image?url=https%3A%2F%2Fapi.example%2Fbig.jpg&w=3840&q=75">
+    <img src="https://sta.example/ui/video-play.webp">
+    <img src="/media/rel.jpg">
+    <img src="https://img.example/agent.jpg" width="64">
+    <img data-src="https://img.example/lazy.jpg" src="data:image/gif;base64,R0lGOD">
+  </main><footer><img src="https://img.example/footer.jpg"></footer></body></html>`;
+
+  test('sbírá og:image, JSON-LD a galerii, bez duplicit, ikon a malých obrázků', () => {
+    const { photos } = parseDetail(HTML, 'https://reality.example/detail/1');
+    assert.deepEqual(photos, [
+      'https://img.example/og.jpg',
+      'https://img.example/ld1.jpg',
+      'https://api.example/big.jpg',
+      'https://reality.example/media/rel.jpg',
+      'https://img.example/lazy.jpg',
+    ]);
+  });
+
+  test('stránka bez fotek vrátí prázdné pole', () => {
+    assert.deepEqual(parseDetail('<html><body><main><p>nic</p></main></body></html>').photos, []);
+  });
+});

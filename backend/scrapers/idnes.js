@@ -8,6 +8,7 @@ import {
   dispositionFromCard,
   localityFromCard,
   cardsFromLinks,
+  photoFromCard,
   unnbsp
 } from './extract.js';
 
@@ -75,7 +76,7 @@ export function parseListPage(html, city) {
         sizeM2: areaFromCard($, card),
         disposition: dispositionFromCard($, card),
         locality: localityFromCard($, card) || localityFromHref(href),
-        photos: [card.find('img[src]').first().attr('src')].filter(Boolean),
+        photos: [photoFromCard($, card)].filter(Boolean),
         city
       };
     })

@@ -8,6 +8,7 @@ import {
   dispositionFromCard,
   localityFromCard,
   cityFromLocality,
+  photoFromCard,
   unnbsp
 } from './extract.js';
 
@@ -68,7 +69,7 @@ export function parseListPage(html, allowedCities = ['praha', 'brno']) {
       sizeM2: areaFromCard($, card),
       disposition: dispositionFromCard($, card),
       locality,
-      photos: [card.find('img[src]').first().attr('src')].filter(Boolean),
+      photos: [photoFromCard($, card)].filter(Boolean),
       city
     });
   });

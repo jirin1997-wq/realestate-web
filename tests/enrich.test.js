@@ -162,3 +162,26 @@ describe('zápis bez prořezávání', () => {
     assert.deepEqual(read().listings.map((l) => l.url), ['https://a/2', 'https://a/9']);
   });
 });
+
+describe('dočtení po nové verzi parseru', () => {
+  beforeEach(() => {
+    __resetJsonSink();
+    fs.rmSync(TMP, { recursive: true, force: true });
+    fs.mkdirSync(TMP, { recursive: true });
+  });
+
+  test('inzeráty dohledané starší verzí se vrátí do fronty až po nikdy nedohledaných', () => {
+    fs.writeFileSync(path.join(TMP, 'listings.json'), JSON.stringify({
+      updated_at: null,
+      listings: [
+        { ...listing({ url: 'https://a/stara-verze' }), first_seen_at: '2026-09-10', enriched_at: '2026-09-11' },
+        { ...listing({ url: 'https://a/nova-verze' }), first_seen_at: '2026-09-10', enriched_at: '2026-09-11', detail_version: 2 },
+        { ...listing({ url: 'https://a/nikdy' }), first_seen_at: '2026-09-01' },
+      ],
+    }));
+    assert.deepEqual(listingsNeedingDetail().map((l) => l.url), ['https://a/nikdy', 'https://a/stara-verze']);
+
+    applyDetail('https://a/stara-verze', {});
+    assert.deepEqual(listingsNeedingDetail().map((l) => l.url), ['https://a/nikdy']);
+  });
+});

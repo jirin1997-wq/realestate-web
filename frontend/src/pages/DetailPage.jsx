@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceRatingBar from '../components/PriceRatingBar';
 import MortgageCalculator from '../components/MortgageCalculator';
+import PhotoGallery from '../components/PhotoGallery';
 import { api } from '../lib/api';
 import { formatCzk, formatPerM2, formatArea, formatDate, LABELS } from '../lib/format';
 
@@ -81,6 +82,8 @@ export default function DetailPage() {
       <Link to="/" className="text-sm text-blue-600 hover:underline mb-5 inline-block">
         ← Zpět na hledání
       </Link>
+
+      <PhotoGallery photos={listing.photos} />
 
       <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-6">
         <div className="flex flex-wrap items-center gap-2 mb-3">

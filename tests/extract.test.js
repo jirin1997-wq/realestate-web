@@ -275,3 +275,20 @@ describe('cena — případy z měsíčního provozu', () => {
     assert.equal(priceFromText('500 Kč'), null);
   });
 });
+
+describe('photoFromCard', async () => {
+  const { photoFromCard, isRealPhoto } = await import('../backend/scrapers/extract.js');
+  const cheerio = await import('cheerio');
+  const card = (html) => { const $ = cheerio.load(`<div id="c">${html}</div>`); return [$, $('#c')]; };
+
+  test('bere líně načítanou fotku místo zástupného obrázku', () => {
+    assert.equal(photoFromCard(...card('<img src="data:image/gif;base64,x" data-src="https://img/a.jpg">')), 'https://img/a.jpg');
+    assert.equal(photoFromCard(...card('<picture><source srcset="https://img/s.webp 400w, https://img/l.webp 800w"><img src="https://img/x.jpg"></picture>')), 'https://img/l.webp');
+  });
+
+  test('přeskočí ikonu videa a vezme další obrázek, nebo nic', () => {
+    assert.equal(photoFromCard(...card('<img src="https://sta/video-play.webp"><img src="https://img/b.jpg">')), 'https://img/b.jpg');
+    assert.equal(photoFromCard(...card('<img src="https://sta/video-play.webp">')), null);
+    assert.equal(isRealPhoto('https://x/logo.png'), false);
+  });
+});

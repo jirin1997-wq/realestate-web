@@ -201,3 +201,23 @@ describe('snímek trhu z JSONu', () => {
     assert.equal(fs.existsSync(path.join(TMP, 'market-snapshots.json')), false);
   });
 });
+
+describe('fotky při opakovaném stažení', () => {
+  beforeEach(() => __resetJsonSink());
+
+  test('galerii z detailu nepřepíše jediná fotka z karty', () => {
+    upsertJson(listing({ url: 'https://example.cz/foto', photos: JSON.stringify(['https://img/1.jpg', 'https://img/2.jpg', 'https://img/3.jpg']) }));
+    upsertJson(listing({ url: 'https://example.cz/foto', photos: JSON.stringify(['https://img/karta.jpg']) }));
+    flushJsonSink();
+    const saved = read('listings.json').listings.find((l) => l.url === 'https://example.cz/foto');
+    assert.equal(saved.photos.length, 3);
+  });
+
+  test('prázdné fotky se doplní z karty', () => {
+    upsertJson(listing({ url: 'https://example.cz/foto2', photos: '[]' }));
+    upsertJson(listing({ url: 'https://example.cz/foto2', photos: JSON.stringify(['https://img/karta.jpg']) }));
+    flushJsonSink();
+    const saved = read('listings.json').listings.find((l) => l.url === 'https://example.cz/foto2');
+    assert.deepEqual(saved.photos, ['https://img/karta.jpg']);
+  });
+});

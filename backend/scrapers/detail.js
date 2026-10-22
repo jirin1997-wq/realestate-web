@@ -1,6 +1,8 @@
 import * as cheerio from 'cheerio';
 import { parseBuildingType, parseCondition, parseAmenities } from './normalize.js';
-import { unnbsp } from './extract.js';
+import { unnbsp, isRealPhoto } from './extract.js';
+
+const MAX_PHOTOS = 15;
 
 /**
  * Čtení detailní stránky inzerátu.
@@ -86,14 +88,75 @@ export function floorFromText(text) {
 
 const VALUE_OF = (map, ...names) => names.map((n) => map.get(n)).filter(Boolean);
 
+function absolutePhoto(src, baseUrl) {
+  try {
+    const url = new URL(src, baseUrl || undefined);
+    // Bezrealitky (Next.js) servíruje fotky přes /_next/image?url=<originál>.
+    if (url.pathname === '/_next/image' && url.searchParams.get('url')) return url.searchParams.get('url');
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function ldImages(value, out) {
+  if (!value) return;
+  if (typeof value === 'string') out.push(value);
+  else if (Array.isArray(value)) value.forEach((v) => ldImages(v, out));
+  else if (typeof value === 'object') {
+    if (value.url || value.contentUrl) out.push(value.url || value.contentUrl);
+    ldImages(value.image, out);
+    if (Array.isArray(value['@graph'])) value['@graph'].forEach((v) => ldImages(v.image, out));
+  }
+}
+
+/**
+ * Fotky z detailu. Pořadí podle spolehlivosti: náhled pro sdílení
+ * (`og:image`) mají všechny tři portály, strukturovaná data a galerie
+ * v hlavním obsahu pak doplní zbytek. Musí běžet před odstraněním <script>.
+ */
+export function photosFromDetail($, baseUrl) {
+  const found = [];
+  $('meta[property="og:image"], meta[name="og:image"], meta[name="twitter:image"]').each((_, m) => {
+    found.push($(m).attr('content'));
+  });
+
+  $('script[type="application/ld+json"]').each((_, s) => {
+    try {
+      ldImages(JSON.parse($(s).html()), found);
+    } catch {
+      // Rozbitý JSON-LD na cizím webu není důvod přijít o zbytek detailu.
+    }
+  });
+
+  const main = $('main, article, [role="main"]').first();
+  (main.length ? main : $('body')).find('img, source').each((_, el) => {
+    const node = $(el);
+    const width = Number(node.attr('width'));
+    if (width && width < 200) return;
+    const srcset = (node.attr('data-srcset') || node.attr('srcset') || '').split(',').map((s) => s.trim().split(/\s+/)[0]).filter(Boolean);
+    found.push(node.attr('data-src'), srcset.at(-1), node.attr('src'));
+  });
+
+  const photos = [];
+  for (const src of found) {
+    if (!src) continue;
+    const url = absolutePhoto(src.trim(), baseUrl);
+    if (isRealPhoto(url) && !photos.includes(url)) photos.push(url);
+    if (photos.length >= MAX_PHOTOS) break;
+  }
+  return photos;
+}
+
 /**
  * Vytáhne z detailu to, co ve výpisu chybí.
  * Chybějící údaj není chyba — zdroje se v tom, co uvádějí, liší.
  */
-export function parseDetail(html) {
+export function parseDetail(html, url = null) {
   const $ = cheerio.load(html);
   const params = paramMap($);
   const { lat, lng } = geoFromHtml(html);
+  const photos = photosFromDetail($, url);
 
   // Vybavenost se hledá jen v hlavním obsahu. Celá stránka nese i blok
   // „Podobné nabídky", ze kterého by se přitáhl cizí balkón nebo výtah.
@@ -118,6 +181,7 @@ export function parseDetail(html) {
     energy_rating: params.get('penb') || params.get('energeticka narocnost') || null,
     ownership: params.get('vlastnictvi') || null,
     heating: params.get('vytapeni') || null,
-    furnishing: params.get('vybaveni') || params.get('vybaveno') || null
+    furnishing: params.get('vybaveni') || params.get('vybaveno') || null,
+    photos
   };
 }

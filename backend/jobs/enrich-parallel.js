@@ -96,7 +96,7 @@ export async function enrichDetailsParallel({
         return;
       }
 
-      const detail = parseDetail(html);
+      const detail = parseDetail(html, listing.url);
       if (filledFields(detail) === 0) emptyDetails += 1;
 
       applyDetail(listing.url, detail);

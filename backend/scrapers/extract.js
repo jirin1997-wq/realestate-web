@@ -35,6 +35,43 @@ export function priceFromText(text) {
   return Number.isFinite(value) && value > 0 ? value : null;
 }
 
+/**
+ * Je adresa skutečná fotka nemovitosti? Odmítá vložené data: URI, SVG
+ * a ikonky (iDNES dává na kartu s videem jen `video-play.webp`).
+ */
+export function isRealPhoto(url) {
+  if (!url || typeof url !== 'string') return false;
+  if (url.startsWith('data:')) return false;
+  return !/video-play|placeholder|logo|icon|sprite|blank|\.svg(\?|$)/i.test(url);
+}
+
+/** První adresa ze `srcset` („a.jpg 400w, b.jpg 800w" → největší). */
+function fromSrcset(srcset) {
+  const parts = String(srcset || '').split(',').map((s) => s.trim().split(/\s+/)[0]).filter(Boolean);
+  return parts.at(-1) || null;
+}
+
+/**
+ * Fotka z karty výpisu. Portály fotky načítají líně: skutečná adresa bývá
+ * v `data-src` nebo `srcset` a v `src` sedí zástupný obrázek.
+ */
+export function photoFromCard($, card) {
+  for (const el of card.find('img, source').toArray()) {
+    const node = $(el);
+    const candidates = [
+      node.attr('data-src'),
+      node.attr('data-lazy-src'),
+      node.attr('data-original'),
+      fromSrcset(node.attr('data-srcset')),
+      fromSrcset(node.attr('srcset')),
+      node.attr('src'),
+    ];
+    const photo = candidates.find(isRealPhoto);
+    if (photo) return photo;
+  }
+  return null;
+}
+
 /** Plocha v m² z jednoho kusu textu. */
 export const areaFromText = (text) => parseArea(unnbsp(text));
 

@@ -7,6 +7,7 @@ import {
   areaFromCard,
   dispositionFromCard,
   localityFromCard,
+  photoFromCard,
   unnbsp
 } from './extract.js';
 
@@ -168,7 +169,7 @@ export function parseListPage(html, city) {
       locality: addressFromLocality(locality) || localityFromCard($, card),
       lat: locality?.latitude ?? null,
       lng: locality?.longitude ?? null,
-      photos: [card.find('img[src]').first().attr('src')].filter(Boolean),
+      photos: [photoFromCard($, card)].filter(Boolean),
       city
     });
   });

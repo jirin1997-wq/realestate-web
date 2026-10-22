@@ -20,6 +20,9 @@ import path from 'node:path';
 
 const KEEP_DAYS = Number(process.env.SCRAPER_KEEP_DAYS) || 30;
 
+/** Zvýšit, když parser detailu začne číst nový údaj — starší inzeráty se dočtou. */
+export const DETAIL_VERSION = 2;
+
 export function jsonSinkEnabled() {
   return process.env.SCRAPER_SINK === 'json';
 }
@@ -56,11 +59,15 @@ function writeJson(file, value) {
  */
 export function listingsNeedingDetail({ sources, limit = 500 } = {}) {
   const store = load();
+  const outdated = (l) => (l.detail_version ?? 1) < DETAIL_VERSION;
 
+  // Ještě nikdy nedohledané mají přednost před těmi, které jen potřebují
+  // dočíst údaje přidané novější verzí parseru (fotky od verze 2).
   return store.listings
-    .filter((l) => !l.enriched_at)
+    .filter((l) => !l.enriched_at || outdated(l))
     .filter((l) => !sources || sources.includes(l.source))
-    .sort((a, b) => String(b.first_seen_at).localeCompare(String(a.first_seen_at)))
+    .sort((a, b) => Number(!!a.enriched_at) - Number(!!b.enriched_at)
+      || String(b.first_seen_at).localeCompare(String(a.first_seen_at)))
     .slice(0, limit);
 }
 
@@ -79,6 +86,7 @@ export function applyDetail(url, detail, now = new Date()) {
   }
 
   listing.enriched_at = now.toISOString();
+  listing.detail_version = DETAIL_VERSION;
   return true;
 }
 
@@ -144,7 +152,9 @@ export function upsertJson(listing, now = new Date()) {
     updated_at: priceChanged ? stamp : existing.updated_at,
     is_discounted: cheaper ? true : Boolean(existing.is_discounted),
     original_price: cheaper && !existing.original_price ? existing.price : existing.original_price,
-    price_history: existing.price_history || []
+    price_history: existing.price_history || [],
+    // Výpis nese nanejvýš jednu fotku z karty; galerie z detailu se jí nepřepíše.
+    photos: (existing.photos || []).length > (incoming.photos || []).length ? existing.photos : incoming.photos
   };
 
   if (priceChanged) {
