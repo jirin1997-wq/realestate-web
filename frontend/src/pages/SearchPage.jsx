@@ -89,6 +89,7 @@ export default function SearchPage() {
 
   const [view, setView] = useState('grid'); // grid | list | map
   const [sortBy, setSortBy] = useState('newest');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   /* Facety a mediány se načítají při změně města nebo typu nabídky.
      Rozsahy sliderů se přitom resetují na plný rozsah trhu. */
@@ -135,6 +136,12 @@ export default function SearchPage() {
     () => filtersToParams(filters, { city, listingType, sortBy }),
     [filters, city, listingType, sortBy]
   );
+
+  // Rozsah posílá min+max jako dva parametry, ale pro uživatele je to jeden filtr.
+  const activeFilterCount = useMemo(() => {
+    const keys = Object.keys(filtersToParams(filters)).map((k) => k.replace(/^(min|max)/, ''));
+    return new Set(keys).size;
+  }, [filters]);
 
   const fetchListings = useCallback(async () => {
     setLoading(true);
@@ -200,6 +207,9 @@ export default function SearchPage() {
           city={city}
           listingType={listingType}
           onListingTypeChange={setListingType}
+          open={filtersOpen}
+          onClose={() => setFiltersOpen(false)}
+          total={total}
         />
 
         <main className="flex-1 min-w-0">
@@ -209,7 +219,19 @@ export default function SearchPage() {
               {total === 1 ? 'nemovitost' : total < 5 ? 'nemovitosti' : 'nemovitostí'}
             </p>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => setFiltersOpen(true)}
+                className="lg:hidden flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-xl text-sm font-medium bg-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+                  <path d="M2 4h12M4.5 8h7M7 12h2" />
+                </svg>
+                Filtry
+                {activeFilterCount > 0 && (
+                  <span className="ml-0.5 px-1.5 rounded-full bg-slate-900 text-white text-xs">{activeFilterCount}</span>
+                )}
+              </button>
               <select
                 value={sortBy}
                 onChange={(e) => {

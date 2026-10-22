@@ -60,6 +60,11 @@ test('/listings/:id uses a stable id derived from the url', async () => {
   assert.equal((await call('/listings/nope')).status, 404);
 });
 
+test('/facets reports counts per listing type for the whole city', async () => {
+  const { body } = await call('/facets?city=praha&listingType=byt');
+  assert.deepEqual(body.listingTypeCounts, { byt: 3, novostavba: 0 });
+});
+
 test('/map returns only geolocated listings', async () => {
   const { body } = await call('/map/praha');
   assert.equal(body.length, 1);

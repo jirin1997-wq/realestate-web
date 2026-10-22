@@ -13,12 +13,15 @@ export default function App() {
               <span className="text-xl" aria-hidden="true">🏠</span>
               <span className="text-lg font-bold tracking-tight text-slate-900">Reality Scout</span>
             </Link>
-            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-xs font-semibold">
+            <span className="hidden sm:inline px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-xs font-semibold">
               beta
             </span>
             <nav className="ml-auto flex items-center gap-1 text-sm font-medium">
               <Link to="/" className="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100">Nabídka</Link>
-              <a href="/kalkulator" className="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100">Kolik si můžu dovolit?</a>
+              <a href="/kalkulator" className="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100">
+                <span className="sm:hidden">Kalkulačka</span>
+                <span className="hidden sm:inline">Kolik si můžu dovolit?</span>
+              </a>
             </nav>
           </div>
         </header>

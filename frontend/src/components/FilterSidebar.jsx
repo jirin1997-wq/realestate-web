@@ -40,7 +40,10 @@ export default function FilterSidebar({
   facets,
   city,
   listingType,
-  onListingTypeChange
+  onListingTypeChange,
+  open = false,
+  onClose,
+  total
 }) {
   const [priceUnit, setPriceUnit] = useState('czk'); // 'czk' | 'm2'
 
@@ -57,11 +60,25 @@ export default function FilterSidebar({
   const priceHist = priceUnit === 'czk' ? facets?.priceHistogram : facets?.pricePerM2Histogram;
   const priceKey = priceUnit === 'czk' ? 'price' : 'pricePerM2';
   const priceRange = filters[`${priceKey}Range`];
+  const hasNewBuilds = (facets?.listingTypeCounts?.novostavba ?? 0) > 0;
 
   return (
-    <aside className="w-full lg:w-72 shrink-0">
-      {/* Přepínač typu nabídky */}
-      <div className="grid grid-cols-2 gap-1 p-1 bg-slate-100 rounded-xl mb-2">
+    <aside
+      className={`${
+        open ? 'fixed inset-0 z-50 overflow-y-auto bg-white px-4 pb-24' : 'hidden'
+      } lg:static lg:block lg:overflow-visible lg:bg-transparent lg:px-0 lg:pb-0 w-full lg:w-72 shrink-0`}
+    >
+      <div className="lg:hidden sticky top-0 z-10 -mx-4 mb-2 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
+        <h2 className="text-lg font-bold text-slate-900">Filtry</h2>
+        <button onClick={onClose} aria-label="Zavřít filtry" className="rounded-lg p-2 text-slate-500 hover:bg-slate-100">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+            <path d="M5 5l10 10M15 5L5 15" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Přepínač typu nabídky — jen když v datech nějaké novostavby jsou */}
+      {hasNewBuilds && <div className="grid grid-cols-2 gap-1 p-1 bg-slate-100 rounded-xl mb-2">
         {[
           { key: 'novostavba', label: 'Novostavby' },
           { key: 'byt', label: 'Byty' }
@@ -78,7 +95,7 @@ export default function FilterSidebar({
             {tab.label}
           </button>
         ))}
-      </div>
+      </div>}
 
       <div className="divide-y divide-slate-200">
         {/* Rychlé přepínače */}
@@ -257,6 +274,12 @@ export default function FilterSidebar({
         <Section title={`Vývoj cen ${city === 'praha' ? 'Praha' : 'Brno'}`}>
           <TrendChart city={city} listingType={listingType} />
         </Section>
+      </div>
+
+      <div className="lg:hidden fixed inset-x-0 bottom-0 border-t border-slate-200 bg-white p-4">
+        <button onClick={onClose} className="w-full rounded-xl bg-slate-900 py-3 text-sm font-semibold text-white">
+          Zobrazit {total ?? ''} {total === 1 ? 'nemovitost' : total > 1 && total < 5 ? 'nemovitosti' : 'nemovitostí'}
+        </button>
       </div>
     </aside>
   );
