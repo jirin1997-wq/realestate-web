@@ -1,0 +1,91 @@
+name: Denní stažení dat
+
+# Stáhne inzeráty, doplní detaily a GPS a výsledek commitne do data/.
+# Render po každém pushi na main nasadí novou verzi, takže web má čerstvá
+# čísla každé ráno. Historie commitů je zároveň historií trhu.
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 02:00 UTC = 3:00/4:00 českého času
+  workflow_dispatch:       # ručně: záložka Actions → Run workflow
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalace závislostí
+        run: npm ci --omit=dev --no-audit --no-fund
+
+      - name: Testy
+        run: npm test
+
+      - name: Stažení dat
+        id: scrape
+        continue-on-error: true
+        env:
+          SCRAPER_SINK: json
+          SCRAPER_CITIES: praha,brno
+        run: npm run scrape
+
+      # Selhání doplňování nesmí zahodit dávku, kterou scrape už přinesl.
+      - name: Dohledání detailů
+        id: enrich
+        continue-on-error: true
+        timeout-minutes: 60
+        env:
+          SCRAPER_SINK: json
+        run: npm run enrich:parallel
+
+      - name: GPS podle ulic
+        id: gps
+        continue-on-error: true
+        run: npm run enrich:gps
+
+      - name: Commit dat
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --staged --quiet; then
+            echo "Žádná změna dat."
+          else
+            git commit -m "data: scrape $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Souhrn
+        if: always()
+        run: |
+          {
+            echo "### Stažení dat $(date -u +%Y-%m-%d)"
+            echo
+            echo "- stažení: \`${{ steps.scrape.outcome }}\` · detaily: \`${{ steps.enrich.outcome }}\` · GPS: \`${{ steps.gps.outcome }}\`"
+            node -p "
+              const L = require('./data/listings.json').listings;
+              const pct = (n) => Math.round((100 * n) / L.length) + ' %';
+              'Inzerátů: **' + L.length + '** · s GPS: **' + pct(L.filter((l) => l.latitude).length) + '**'
+            "
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Nahlásit selhání
+        if: steps.scrape.outcome == 'failure'
+        run: |
+          echo "Scrape neuspěl — ani jeden zdroj nevrátil data."
+          exit 1
