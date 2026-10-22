@@ -290,5 +290,6 @@ describe('photoFromCard', async () => {
     assert.equal(photoFromCard(...card('<img src="https://sta/video-play.webp"><img src="https://img/b.jpg">')), 'https://img/b.jpg');
     assert.equal(photoFromCard(...card('<img src="https://sta/video-play.webp">')), null);
     assert.equal(isRealPhoto('https://x/logo.png'), false);
+    assert.equal(isRealPhoto('https://sta-reality2.1gr.cz/ui/image/no-image-gallery.png'), false);
   });
 });

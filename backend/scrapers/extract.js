@@ -42,7 +42,7 @@ export function priceFromText(text) {
 export function isRealPhoto(url) {
   if (!url || typeof url !== 'string') return false;
   if (url.startsWith('data:')) return false;
-  return !/video-play|placeholder|logo|icon|sprite|blank|\.svg(\?|$)/i.test(url);
+  return !/video-play|no-image|placeholder|logo|icon|sprite|blank|\.svg(\?|$)/i.test(url);
 }
 
 /** První adresa ze `srcset` („a.jpg 400w, b.jpg 800w" → největší). */

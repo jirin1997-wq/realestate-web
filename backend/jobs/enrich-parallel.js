@@ -9,7 +9,7 @@
  *   ENRICH_CONCURRENT=5 npm run enrich:parallel    # více workerů
  */
 
-import { fetchHtml, SourceError, sleep } from '../scrapers/http.js';
+import { fetchHtml, sleep } from '../scrapers/http.js';
 import { parseDetail } from '../scrapers/detail.js';
 import {
   jsonSinkEnabled,
@@ -23,6 +23,10 @@ const SOURCES = ['idnes', 'bezrealitky'];
 const BATCH = Number(process.env.ENRICH_BATCH) || 2000;
 const CONCURRENT = Number(process.env.ENRICH_CONCURRENT) || 4;
 const REQUEST_TIMEOUT_MS = 15000;
+const MAX_FAIL_STREAK = 25;
+
+export const isTransient = (err) =>
+  /HTTP (429|5\d\d)|timeout|ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket hang up/i.test(err?.message || '');
 
 function filledFields(detail) {
   return Object.values(detail).filter(
@@ -78,20 +82,29 @@ export async function enrichDetailsParallel({
   let done = 0;
   let failed = 0;
   let emptyDetails = 0;
+  let failStreak = 0;
+  let stopped = false;
 
   const startTime = Date.now();
 
   const promises = queue.map((listing) =>
     pQueue.add(async () => {
+      if (stopped) return;
       let html;
       try {
         html = await fetchDetailWithBackoff(listing);
+        failStreak = 0;
       } catch (err) {
         failed += 1;
-        applyDetail(listing.url, {});
-        if (failed <= 5) {
-          const msg = err instanceof SourceError ? err.message : err.message;
-          console.warn(`  ✗ ${listing.url}\n    ${msg}`);
+        failStreak += 1;
+        // Přetížený nebo blokující web (503, 429, timeout) není mrtvý inzerát:
+        // bez značky se zkusí znovu příští noc. Trvale se značí jen ostatní chyby.
+        if (!isTransient(err)) applyDetail(listing.url, {});
+        if (failed <= 5) console.warn(`  ✗ ${listing.url}\n    ${err.message}`);
+        if (failStreak >= MAX_FAIL_STREAK && !stopped) {
+          stopped = true;
+          pQueue.clear();
+          console.warn(`  ⏸ ${MAX_FAIL_STREAK} chyb v řadě — zdroj nás odmítá, zbytek dávky počká na další běh`);
         }
         return;
       }

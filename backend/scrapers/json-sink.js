@@ -21,7 +21,8 @@ import path from 'node:path';
 const KEEP_DAYS = Number(process.env.SCRAPER_KEEP_DAYS) || 30;
 
 /** Zvýšit, když parser detailu začne číst nový údaj — starší inzeráty se dočtou. */
-export const DETAIL_VERSION = 2;
+// 3: verze 2 omylem značila jako hotové i detaily, které iDNES odmítl (503).
+export const DETAIL_VERSION = 3;
 
 export function jsonSinkEnabled() {
   return process.env.SCRAPER_SINK === 'json';

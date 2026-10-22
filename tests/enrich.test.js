@@ -14,6 +14,7 @@ const {
   persistJsonSink,
   listingsNeedingDetail,
   applyDetail,
+  DETAIL_VERSION,
   __resetJsonSink
 } = await import('../backend/scrapers/json-sink.js');
 
@@ -175,7 +176,7 @@ describe('dočtení po nové verzi parseru', () => {
       updated_at: null,
       listings: [
         { ...listing({ url: 'https://a/stara-verze' }), first_seen_at: '2026-09-10', enriched_at: '2026-09-11' },
-        { ...listing({ url: 'https://a/nova-verze' }), first_seen_at: '2026-09-10', enriched_at: '2026-09-11', detail_version: 2 },
+        { ...listing({ url: 'https://a/nova-verze' }), first_seen_at: '2026-09-10', enriched_at: '2026-09-11', detail_version: DETAIL_VERSION },
         { ...listing({ url: 'https://a/nikdy' }), first_seen_at: '2026-09-01' },
       ],
     }));
@@ -183,5 +184,16 @@ describe('dočtení po nové verzi parseru', () => {
 
     applyDetail('https://a/stara-verze', {});
     assert.deepEqual(listingsNeedingDetail().map((l) => l.url), ['https://a/nikdy']);
+  });
+});
+
+describe('dočasné chyby zdroje', async () => {
+  const { isTransient } = await import('../backend/jobs/enrich-parallel.js');
+
+  test('503, 429 a timeout se zkusí znovu, 404 ne', () => {
+    assert.equal(isTransient(new Error('HTTP 503 Service Unavailable')), true);
+    assert.equal(isTransient(new Error('HTTP 429 Too Many Requests')), true);
+    assert.equal(isTransient(new Error('Timeout')), true);
+    assert.equal(isTransient(new Error('HTTP 404 Not Found')), false);
   });
 });
