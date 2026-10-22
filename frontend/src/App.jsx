@@ -16,6 +16,10 @@ export default function App() {
             <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-xs font-semibold">
               beta
             </span>
+            <nav className="ml-auto flex items-center gap-1 text-sm font-medium">
+              <Link to="/" className="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100">Nabídka</Link>
+              <a href="/kalkulator" className="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100">Kolik si můžu dovolit?</a>
+            </nav>
           </div>
         </header>
 

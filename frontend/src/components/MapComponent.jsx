@@ -71,6 +71,7 @@ export default function MapComponent({ city = 'praha', params = {} }) {
           style={{ height: '600px', width: '100%' }}
           className="rounded-2xl border border-slate-200 z-0"
           scrollWheelZoom
+          preferCanvas
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
