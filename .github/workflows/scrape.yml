@@ -67,6 +67,8 @@ jobs:
             echo "Žádná změna dat."
           else
             git commit -m "data: scrape $(date -u +%Y-%m-%d)"
+            # Code may have been pushed during the long scrape; data/ is bot-only, so rebase is safe.
+            git pull --rebase origin main
             git push
           fi
 
