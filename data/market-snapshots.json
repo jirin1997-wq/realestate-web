@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T21:24:30.744Z",
+  "updated_at": "2026-10-23T07:19:53.461Z",
   "snapshots": [
     {
       "city": "brno",
@@ -29979,6 +29979,573 @@
       "median_price": 8790000,
       "sample_size": 1595,
       "snapshot_date": "2026-10-22"
+    },
+    {
+      "city": "brno",
+      "district": "Brno",
+      "listing_type": "byt",
+      "median_price_per_m2": 161840,
+      "median_price": 8163937,
+      "sample_size": 360,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Bohunice",
+      "listing_type": "byt",
+      "median_price_per_m2": 143562,
+      "median_price": 6810000,
+      "sample_size": 52,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Bosonohy",
+      "listing_type": "byt",
+      "median_price_per_m2": 133320,
+      "median_price": 7969000,
+      "sample_size": 22,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Brněnské Ivanovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 125658,
+      "median_price": 4775000,
+      "sample_size": 6,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Bystrc",
+      "listing_type": "byt",
+      "median_price_per_m2": 133333,
+      "median_price": 7200000,
+      "sample_size": 89,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Černá Pole",
+      "listing_type": "byt",
+      "median_price_per_m2": 122124,
+      "median_price": 8400000,
+      "sample_size": 84,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Černovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 122222,
+      "median_price": 7042069,
+      "sample_size": 50,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Chrlice",
+      "listing_type": "byt",
+      "median_price_per_m2": 110667,
+      "median_price": 7999000,
+      "sample_size": 11,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Dolní Heršpice",
+      "listing_type": "byt",
+      "median_price_per_m2": 140833,
+      "median_price": 5070000,
+      "sample_size": 3,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Holásky",
+      "listing_type": "byt",
+      "median_price_per_m2": 129231,
+      "median_price": 8947000,
+      "sample_size": 4,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Horní Heršpice",
+      "listing_type": "byt",
+      "median_price_per_m2": 155588,
+      "median_price": 7070000,
+      "sample_size": 35,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Husovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 156667,
+      "median_price": 5700000,
+      "sample_size": 97,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Ivanovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 88207,
+      "median_price": 12790000,
+      "sample_size": 2,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Jehnice",
+      "listing_type": "byt",
+      "median_price_per_m2": 138985,
+      "median_price": 12545000,
+      "sample_size": 2,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Jundrov",
+      "listing_type": "byt",
+      "median_price_per_m2": 112951,
+      "median_price": 10195000,
+      "sample_size": 10,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Kníničky",
+      "listing_type": "byt",
+      "median_price_per_m2": 117838,
+      "median_price": 11174000,
+      "sample_size": 17,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Kohoutovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 132577,
+      "median_price": 8490000,
+      "sample_size": 60,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Komárov",
+      "listing_type": "byt",
+      "median_price_per_m2": 132356,
+      "median_price": 7690000,
+      "sample_size": 30,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Komín",
+      "listing_type": "byt",
+      "median_price_per_m2": 135472,
+      "median_price": 7180000,
+      "sample_size": 21,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Královo Pole",
+      "listing_type": "byt",
+      "median_price_per_m2": 133500,
+      "median_price": 7490000,
+      "sample_size": 89,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Lesná",
+      "listing_type": "byt",
+      "median_price_per_m2": 129986,
+      "median_price": 7800000,
+      "sample_size": 62,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Líšeň",
+      "listing_type": "byt",
+      "median_price_per_m2": 130667,
+      "median_price": 6595000,
+      "sample_size": 61,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Maloměřice",
+      "listing_type": "byt",
+      "median_price_per_m2": 135672,
+      "median_price": 7990000,
+      "sample_size": 16,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Medlánky",
+      "listing_type": "byt",
+      "median_price_per_m2": 142491,
+      "median_price": 8922500,
+      "sample_size": 8,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-město",
+      "listing_type": "byt",
+      "median_price_per_m2": 142862,
+      "median_price": 9634500,
+      "sample_size": 6,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Mokrá Hora",
+      "listing_type": "byt",
+      "median_price_per_m2": 97857,
+      "median_price": 13700000,
+      "sample_size": 1,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Nový Lískovec",
+      "listing_type": "byt",
+      "median_price_per_m2": 130104,
+      "median_price": 7980000,
+      "sample_size": 38,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Obřany",
+      "listing_type": "byt",
+      "median_price_per_m2": 103067,
+      "median_price": 7730000,
+      "sample_size": 6,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Pisárky",
+      "listing_type": "byt",
+      "median_price_per_m2": 192398,
+      "median_price": 7800000,
+      "sample_size": 7,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Ponava",
+      "listing_type": "byt",
+      "median_price_per_m2": 128871,
+      "median_price": 7238195,
+      "sample_size": 59,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Řečkovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 127142,
+      "median_price": 6890000,
+      "sample_size": 62,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Sadová",
+      "listing_type": "byt",
+      "median_price_per_m2": 156125,
+      "median_price": 12490000,
+      "sample_size": 9,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-sever",
+      "listing_type": "byt",
+      "median_price_per_m2": 165871,
+      "median_price": 6039000,
+      "sample_size": 9,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Slatina",
+      "listing_type": "byt",
+      "median_price_per_m2": 131103,
+      "median_price": 7845000,
+      "sample_size": 68,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Soběšice",
+      "listing_type": "byt",
+      "median_price_per_m2": 166316,
+      "median_price": 16299000,
+      "sample_size": 1,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Staré Brno",
+      "listing_type": "byt",
+      "median_price_per_m2": 128158,
+      "median_price": 8315000,
+      "sample_size": 88,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Starý Lískovec",
+      "listing_type": "byt",
+      "median_price_per_m2": 120455,
+      "median_price": 7580000,
+      "sample_size": 43,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Stránice",
+      "listing_type": "byt",
+      "median_price_per_m2": 179310,
+      "median_price": 15600000,
+      "sample_size": 9,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-střed",
+      "listing_type": "byt",
+      "median_price_per_m2": 104839,
+      "median_price": 6500000,
+      "sample_size": 3,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Štýřice",
+      "listing_type": "byt",
+      "median_price_per_m2": 119091,
+      "median_price": 6940000,
+      "sample_size": 46,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Trnitá",
+      "listing_type": "byt",
+      "median_price_per_m2": 147612,
+      "median_price": 9990000,
+      "sample_size": 79,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Tuřany",
+      "listing_type": "byt",
+      "median_price_per_m2": 129373,
+      "median_price": 11449500,
+      "sample_size": 24,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Útěchov",
+      "listing_type": "byt",
+      "median_price_per_m2": 141584,
+      "median_price": 8990000,
+      "sample_size": 2,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Veveří",
+      "listing_type": "byt",
+      "median_price_per_m2": 122714,
+      "median_price": 9906000,
+      "sample_size": 106,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Žabovřesky",
+      "listing_type": "byt",
+      "median_price_per_m2": 151282,
+      "median_price": 7190000,
+      "sample_size": 53,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Zábrdovice",
+      "listing_type": "byt",
+      "median_price_per_m2": 146826,
+      "median_price": 6990000,
+      "sample_size": 212,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Žebětín",
+      "listing_type": "byt",
+      "median_price_per_m2": 113582,
+      "median_price": 7950000,
+      "sample_size": 122,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Brno-Židenice",
+      "listing_type": "byt",
+      "median_price_per_m2": 124810,
+      "median_price": 7344500,
+      "sample_size": 166,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": "Jihomoravský kraj",
+      "listing_type": "byt",
+      "median_price_per_m2": 132000,
+      "median_price": 7690000,
+      "sample_size": 61,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "brno",
+      "district": null,
+      "listing_type": "byt",
+      "median_price_per_m2": 137872,
+      "median_price": 7757432,
+      "sample_size": 2471,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Hlavní město Praha",
+      "listing_type": "byt",
+      "median_price_per_m2": 178829,
+      "median_price": 9999000,
+      "sample_size": 31,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": null,
+      "listing_type": "byt",
+      "median_price_per_m2": 164986,
+      "median_price": 9450000,
+      "sample_size": 10762,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha",
+      "listing_type": "byt",
+      "median_price_per_m2": 164583,
+      "median_price": 8599000,
+      "sample_size": 33,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 1",
+      "listing_type": "byt",
+      "median_price_per_m2": 230526,
+      "median_price": 16490000,
+      "sample_size": 301,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 10",
+      "listing_type": "byt",
+      "median_price_per_m2": 157511,
+      "median_price": 8790000,
+      "sample_size": 1610,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 2",
+      "listing_type": "byt",
+      "median_price_per_m2": 200000,
+      "median_price": 14306959,
+      "sample_size": 439,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 3",
+      "listing_type": "byt",
+      "median_price_per_m2": 178000,
+      "median_price": 9990000,
+      "sample_size": 679,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 4",
+      "listing_type": "byt",
+      "median_price_per_m2": 157954,
+      "median_price": 8790000,
+      "sample_size": 1988,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 5",
+      "listing_type": "byt",
+      "median_price_per_m2": 166528,
+      "median_price": 10200000,
+      "sample_size": 1931,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 6",
+      "listing_type": "byt",
+      "median_price_per_m2": 168932,
+      "median_price": 9914512,
+      "sample_size": 666,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 7",
+      "listing_type": "byt",
+      "median_price_per_m2": 191176,
+      "median_price": 12990000,
+      "sample_size": 371,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 8",
+      "listing_type": "byt",
+      "median_price_per_m2": 165611,
+      "median_price": 9297000,
+      "sample_size": 1105,
+      "snapshot_date": "2026-10-23"
+    },
+    {
+      "city": "praha",
+      "district": "Praha 9",
+      "listing_type": "byt",
+      "median_price_per_m2": 157265,
+      "median_price": 8790000,
+      "sample_size": 1608,
+      "snapshot_date": "2026-10-23"
     }
   ]
 }
